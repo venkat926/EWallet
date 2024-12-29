@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kvn.UserService.dto.UserRequestDTO;
 import org.kvn.UserService.enums.UserType;
+import org.kvn.UserService.exception.UserAlreadyExistsException;
 import org.kvn.UserService.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,21 @@ public class UserService implements UserDetailsService{
     @Value("${admin.authority}")
     private String adminAuthority;
 
-    public Users addUpdate(UserRequestDTO userRequestDTO) throws JsonProcessingException {
+    public Users addUpdate(UserRequestDTO userRequestDTO) throws JsonProcessingException, UserAlreadyExistsException {
         Users user = userRequestDTO.toUser();
         user.setAuthorities(userAuthority);
         user.setPassword(encoder.encode(userRequestDTO.getPassword()));
         user.setUserType(UserType.USER);
+        // validate the user by email, phone number and UserIdentifierValue
+        if (userRepo.existsByEmail(user.getEmail())) {
+            throw new UserAlreadyExistsException("Email already in use. Please use a new Email.");
+        }
+        if (user.getPhoneNo()!=null && !user.getPhoneNo().isEmpty() && userRepo.existsByPhoneNo(user.getPhoneNo())) {
+            throw new UserAlreadyExistsException("Phone Number already in use. Please use a new phone number.");
+        }
+        if (userRepo.existsByUserIdentifierValue(user.getUserIdentifierValue())) {
+            throw new UserAlreadyExistsException("UserIdentifierValue already in use. Please use a new UserIdentifierValue.");
+        }
         user = userRepo.save(user);
 
         // Kafka Queue: push message to the Queue

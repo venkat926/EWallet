@@ -1,5 +1,6 @@
 package org.kvn.UserService.dto;
 
+import jakarta.validation.constraints.Email;
 import org.kvn.UserService.enums.UserIdentifier;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ public class UserRequestDTO {
     private String contact;
 
     @NotBlank(message = "email should not be blank")
+    @Email(message = "Invalid Email format. Please provide a valid email address")
     private String email;
 
     private String address;
@@ -22,7 +24,7 @@ public class UserRequestDTO {
     @NotNull(message = "userIdentifier is required")
     private UserIdentifier userIdentifier;
 
-    @NotBlank(message = "userIdentifier is required")
+    @NotBlank(message = "userIdentifierValue is required")
     private String userIdentifierValue;
 
     @NotBlank(message = "password should not be blank")

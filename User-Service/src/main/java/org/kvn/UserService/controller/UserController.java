@@ -3,6 +3,7 @@ package org.kvn.UserService.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.kvn.UserService.dto.UserRequestDTO;
 import org.kvn.UserService.dto.UserResponseDTO;
+import org.kvn.UserService.exception.UserAlreadyExistsException;
 import org.kvn.UserService.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/addUser")
-    public ResponseEntity<UserResponseDTO> addUser(@RequestBody @Validated UserRequestDTO userRequestDTO) throws JsonProcessingException {
+    public ResponseEntity<UserResponseDTO> addUser(@RequestBody @Validated UserRequestDTO userRequestDTO) throws JsonProcessingException, UserAlreadyExistsException {
         logger.info("addUser API is called");
         Users user = userService.addUpdate(userRequestDTO);
         if (user != null) {
