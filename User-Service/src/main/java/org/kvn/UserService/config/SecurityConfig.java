@@ -15,7 +15,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/test/**").permitAll()
+                        .requestMatchers("/user/test/**").permitAll()   // TODO: remove this
                         .requestMatchers("/user/addUser/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())

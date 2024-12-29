@@ -23,7 +23,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/addUser")
-    public ResponseEntity<UserResponseDTO> addUser(@RequestBody @Validated UserRequestDTO userRequestDTO) throws JsonProcessingException, UserAlreadyExistsException {
+    public ResponseEntity<UserResponseDTO> addUser(@RequestBody @Validated UserRequestDTO userRequestDTO)
+            throws JsonProcessingException, UserAlreadyExistsException {
         logger.info("addUser API is called");
         Users user = userService.addUpdate(userRequestDTO);
         if (user != null) {
@@ -45,6 +46,7 @@ public class UserController {
 
     // TODO: write updateUser API
 
+    // TODO: Remove these two API: These are used just for testing
     @GetMapping("/test")
     public String get() {
         System.out.println("Testing API");

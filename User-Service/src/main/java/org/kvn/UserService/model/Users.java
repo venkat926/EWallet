@@ -1,7 +1,6 @@
 package org.kvn.UserService.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.Email;
 import org.kvn.UserService.enums.UserIdentifier;
 import org.kvn.UserService.enums.UserType;
 import jakarta.persistence.*;
