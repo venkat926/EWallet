@@ -1,4 +1,4 @@
-package utilities;
+package org.kvn.UserService.utilities;
 
 public class Constants {
     public final static  String USER_ID = "user_id";

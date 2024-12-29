@@ -1,4 +1,4 @@
-package enums;
+package org.kvn.UserService.enums;
 
 public enum UserIdentifier {
     PAN,

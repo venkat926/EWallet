@@ -1,8 +1,8 @@
-package model;
+package org.kvn.UserService.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import enums.UserIdentifier;
-import enums.UserType;
+import org.kvn.UserService.enums.UserIdentifier;
+import org.kvn.UserService.enums.UserType;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

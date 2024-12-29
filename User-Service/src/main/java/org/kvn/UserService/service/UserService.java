@@ -1,23 +1,24 @@
-package service;
+package org.kvn.UserService.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.UserRequestDTO;
-import model.Users;
-import org.apache.tomcat.util.bcel.Const;
-import org.hibernate.validator.internal.metadata.raw.ConstrainedType;
+import org.kvn.UserService.dto.UserRequestDTO;
+import org.kvn.UserService.enums.UserType;
+import org.kvn.UserService.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import repository.UserRepo;
-import utilities.Constants;
+import org.kvn.UserService.repository.UserRepo;
+import org.kvn.UserService.utilities.Constants;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepo userRepo;
@@ -31,16 +32,17 @@ public class UserService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Value("user.authority")
+    @Value("${user.authority}")
     private String userAuthority;
 
-    @Value("admin.authority")
+    @Value("${admin.authority}")
     private String adminAuthority;
 
     public Users addUpdate(UserRequestDTO userRequestDTO) throws JsonProcessingException {
         Users user = userRequestDTO.toUser();
         user.setAuthorities(userAuthority);
         user.setPassword(encoder.encode(userRequestDTO.getPassword()));
+        user.setUserType(UserType.USER);
         user = userRepo.save(user);
 
         // Kafka Queue: push message to the Queue
@@ -59,5 +61,14 @@ public class UserService {
         // return
         return user;
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserDetails user = userRepo.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("user Not Found");
+        }
+        return user;
     }
 }

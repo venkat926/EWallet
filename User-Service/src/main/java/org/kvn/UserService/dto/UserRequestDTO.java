@@ -1,11 +1,9 @@
-package dto;
+package org.kvn.UserService.dto;
 
-import enums.UserIdentifier;
+import org.kvn.UserService.enums.UserIdentifier;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import model.Users;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.kvn.UserService.model.Users;
 
 
 public class UserRequestDTO {
