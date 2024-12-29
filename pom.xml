@@ -26,7 +26,8 @@
 		<module>Notification-Service</module>
 		<module>Wallet-Service</module>
 		<module>Transaction-Service</module>
-	</modules>
+        <module>CommonUtils</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>

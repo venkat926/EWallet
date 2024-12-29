@@ -1,6 +1,6 @@
-package org.kvn.UserService.utilities;
+package org.kvn.CommonUtils;
 
-public class Constants {
+public class CommonConstants {
     public final static  String USER_ID = "user_id";
     public final static  String USER_NAME = "user_name";
     public final static  String USER_CONTACT = "user_contact";

@@ -2,6 +2,7 @@ package org.kvn.UserService.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.kvn.CommonUtils.CommonConstants;
 import org.kvn.UserService.dto.UserRequestDTO;
 import org.kvn.UserService.enums.UserType;
 import org.kvn.UserService.exception.UserAlreadyExistsException;
@@ -16,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.kvn.UserService.repository.UserRepo;
-import org.kvn.UserService.utilities.Constants;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -59,14 +59,14 @@ public class UserService implements UserDetailsService{
         // Kafka Queue: push message to the Queue
         if (user != null) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(Constants.USER_CONTACT, user.getPhoneNo());
-            jsonObject.put(Constants.USER_EMAIL, user.getEmail());
-            jsonObject.put(Constants.USER_NAME, user.getName());
-            jsonObject.put(Constants.USER_IDENTIFIER, user.getUserIdentifier());
-            jsonObject.put(Constants.USER_IDENTIFIER_VALUE, user.getUserIdentifierValue());
-            jsonObject.put(Constants.USER_ID, user.getId());
+            jsonObject.put(CommonConstants.USER_CONTACT, user.getPhoneNo());
+            jsonObject.put(CommonConstants.USER_EMAIL, user.getEmail());
+            jsonObject.put(CommonConstants.USER_NAME, user.getName());
+            jsonObject.put(CommonConstants.USER_IDENTIFIER, user.getUserIdentifier());
+            jsonObject.put(CommonConstants.USER_IDENTIFIER_VALUE, user.getUserIdentifierValue());
+            jsonObject.put(CommonConstants.USER_ID, user.getId());
 
-            kafkaTemplate.send(Constants.USER_CREATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
+            kafkaTemplate.send(CommonConstants.USER_CREATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
         }
 
         // return
