@@ -9,4 +9,5 @@ public class CommonConstants {
     public final static  String USER_EMAIL = "user_email";
 
     public final static  String USER_CREATION_TOPIC = "user_creation_topic";
+    public final static  String WALLET_CREATION_TOPIC = "wallet_creation_topic";
 }

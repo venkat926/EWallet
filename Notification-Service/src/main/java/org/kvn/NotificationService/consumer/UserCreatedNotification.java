@@ -27,7 +27,7 @@ public class UserCreatedNotification {
 
     @KafkaListener(topics = {CommonConstants.USER_CREATION_TOPIC}, groupId = "notification-service")
     public void sendNotification(String message) throws JsonProcessingException {
-        logger.info("A new user is added. Wallet is created. Sending mail Notification");
+        logger.info("A new user is added. Sending mail Notification");
         JSONObject jsonObject = objectMapper.readValue(message, JSONObject.class);
         String name = (String) jsonObject.get(CommonConstants.USER_NAME);
         String email = (String) jsonObject.get(CommonConstants.USER_EMAIL);
@@ -38,6 +38,6 @@ public class UserCreatedNotification {
         simpleMailMessage.setSubject("EWallet User Created");
         simpleMailMessage.setText("Welcome " + name + " to EWallet. User has been created. wallet wil be created in a while");
         mailSender.send(simpleMailMessage);
-        logger.info("Sent mail Notification");
+        logger.info("Sent mail Notification for new user created");
     }
 }
