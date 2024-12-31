@@ -9,6 +9,8 @@ public class SenderReceiverInfo {
     private String receiverContact;
     private Double amount;
     private String message;
+    private String senderEmail;
+    private String receiverEmail;
 
     // Constructors
     public SenderReceiverInfo() {
@@ -23,6 +25,16 @@ public class SenderReceiverInfo {
         this.receiverContact = receiverContact;
         this.amount = amount;
         this.message = message;
+    }
+
+    public SenderReceiverInfo(String senderContact, String receiverContact, Double amount, String message,
+                              String senderEmail, String receiverEmail) {
+        this.senderContact = senderContact;
+        this.receiverContact = receiverContact;
+        this.amount = amount;
+        this.message = message;
+        this.senderEmail = senderEmail;
+        this.receiverEmail = receiverEmail;
     }
 
     // Getters and Setters
@@ -56,5 +68,21 @@ public class SenderReceiverInfo {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getSenderEmail() {
+        return senderEmail;
+    }
+
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
+    }
+
+    public String getReceiverEmail() {
+        return receiverEmail;
+    }
+
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
     }
 }

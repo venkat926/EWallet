@@ -5,6 +5,7 @@ import org.kvn.UserService.dto.SenderReceiverInfo;
 import org.kvn.UserService.dto.UserTxnDTO;
 import org.kvn.UserService.dto.ValidateWalletDTO;
 import org.kvn.UserService.model.Users;
+import org.kvn.UserService.repository.UserRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ValidateUserBeforeTxnService {
 
     @Autowired
     private KafkaTemplate<String, SenderReceiverInfo> kafkaTemplate;
+
+    @Autowired
+    private UserRepo userRepo;
 
     public String validateUsersAndStartTxn(UserTxnDTO dto, Users user) {
         // sender is having a wallet and enough money in it
@@ -53,7 +57,9 @@ public class ValidateUserBeforeTxnService {
         }
 
         // send message to queue to start the transaction
-        SenderReceiverInfo senderReceiverInfo = new SenderReceiverInfo(user.getPhoneNo(), dto.getReceiverContact(), dto.getAmount(), dto.getMessage());
+        SenderReceiverInfo senderReceiverInfo =
+                new SenderReceiverInfo(user.getPhoneNo(), dto.getReceiverContact(), dto.getAmount(), dto.getMessage(),
+                        user.getEmail(), userRepo.getEmailByContact(dto.getReceiverContact()));
         logger.info("Publishing message to {} to start the Transaction", CommonConstants.TRANSACTION_CREATION_TOPIC);
         kafkaTemplate.send(CommonConstants.TRANSACTION_CREATION_TOPIC, senderReceiverInfo);
         logger.info("Published message to {} to start the Transaction", CommonConstants.TRANSACTION_CREATION_TOPIC);

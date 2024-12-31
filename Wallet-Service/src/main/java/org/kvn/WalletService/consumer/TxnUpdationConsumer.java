@@ -38,6 +38,8 @@ public class TxnUpdationConsumer {
         String receiverContact = (String) jsonObject.get("receiverContact");
         Double amount = (Double) jsonObject.get("amount");
         String txnId = (String) jsonObject.get("txnId");
+        String senderEmail = (String) jsonObject.get("senderEmail");
+        String receiverEmail = (String) jsonObject.get("receiverEmail");
 
         logger.info("updating the wallet balance of sender and receiver");
         logger.info("senderContact-{}, receiverContact-{}", senderContact, receiverContact);
@@ -51,6 +53,10 @@ public class TxnUpdationConsumer {
         object.put("status", "success");
         object.put("message", "wallet updated");
         object.put("remainingBalance", walletRepo.getBalance(senderContact));
+        object.put("senderEmail", senderEmail);
+        object.put("receiverEmail", receiverEmail);
+        object.put("amount", amount);
+        object.put("senderContact", senderContact);
         kafkaTemplate.send(CommonConstants.TRANSACTION_COMPLETED_TOPIC, objectMapper.writeValueAsString(object));
         logger.info("published message to {}, to update the txn status", CommonConstants.TRANSACTION_COMPLETED_TOPIC);
 

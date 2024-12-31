@@ -60,6 +60,8 @@ public class TxnInitiatedConsumer {
         jsonObject.put("amount", txn.getAmount());
         jsonObject.put("txnStatus", txn.getTxnStatus());
         jsonObject.put("message", txn.getMessage());
+        jsonObject.put("senderEmail", message.getSenderEmail());
+        jsonObject.put("receiverEmail", message.getReceiverEmail());
         kafkaTemplate.send(CommonConstants.TRANSACTION_UPDATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
         logger.info("message published to {}," +
                 " for deducting amount from Senders wallet and to add amount to Receivers wallet ",
