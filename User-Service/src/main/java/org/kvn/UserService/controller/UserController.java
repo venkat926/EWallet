@@ -45,18 +45,5 @@ public class UserController {
     }
 
     // TODO: write updateUser API
-
-    // TODO: Remove these two API: These are used just for testing
-    @GetMapping("/test")
-    public String get() {
-        System.out.println("Testing API");
-        return "Just Testing";
-    }
-
-    @GetMapping("/test2")
-    public String test2() {
-        System.out.println("Test2");
-        return "Testing: This is for Authenticated user";
-    }
 }
 
