@@ -4,12 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kvn.CommonUtils.CommonConstants;
 import org.kvn.UserService.dto.UserRequestDTO;
+import org.kvn.UserService.dto.ValidateWalletDTO;
 import org.kvn.UserService.enums.UserType;
 import org.kvn.UserService.exception.UserAlreadyExistsException;
 import org.kvn.UserService.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.kvn.UserService.repository.UserRepo;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -32,6 +36,9 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Value("${user.authority}")
     private String userAuthority;
@@ -81,5 +88,21 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("user Not Found");
         }
         return user;
+    }
+
+    public String addMoneyToUserWallet(Double amount, String phoneNo) {
+        ValidateWalletDTO dto = restTemplate.exchange("http://localhost:8070/wallet/validateWallet?contact="+phoneNo+"&balance=0",
+                HttpMethod.GET, null, ValidateWalletDTO.class).getBody();
+        if (dto == null) return "Internal Server Error. Please try again";
+        if (!dto.isValidWallet()) {
+            return "Wallet is not associated with you. Please create wallet first";
+        }
+        Double finalAmount = restTemplate.exchange("http://localhost:8070/wallet/addMoney?contact="+phoneNo+"&amount="+amount,
+                HttpMethod.GET, null, Double.class).getBody();
+        if (finalAmount == null) {
+            return "Money not added to your wallet. please try again";
+        }
+        return "Money successfully added to your wallet. And your final amount is : " + finalAmount + " Rupees";
+
     }
 }

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.kvn.UserService.service.UserService;
@@ -42,6 +43,11 @@ public class UserController {
         }
 
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/addMoney")
+    public String addMoneyToUserWallet(@RequestParam("amount") Double amount, @AuthenticationPrincipal Users user) {
+        return userService.addMoneyToUserWallet(amount, user.getPhoneNo());
     }
 
     // TODO: write updateUser API

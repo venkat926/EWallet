@@ -36,4 +36,10 @@ public class WalletController {
         return responseDTO;
     }
 
+    @GetMapping("/addMoney")
+    public Double addMoneyToWallet(@RequestParam("contact") String contact,
+                                   @RequestParam("amount") Double amount) {
+        return walletService.addMoneyToWallet(contact, amount);
+    }
+
 }

@@ -19,4 +19,9 @@ public class WalletService {
         else if (wallet.getBalance()<amount) return new ValidateWalletDTO(true, false);
         else return new ValidateWalletDTO(true, true);
     }
+
+    public Double addMoneyToWallet(String contact, Double amount) {
+        walletRepo.updateWallet(contact, amount);
+        return  (Double) walletRepo.getBalance(contact);
+    }
 }
