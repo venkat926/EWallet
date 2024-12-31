@@ -27,6 +27,8 @@ public class Wallet {
     private Date updatedOn;
 
     // Constructor
+    public Wallet() {
+    }
     public Wallet(Integer userId, String contact, Double balance) {
         this.userId = userId;
         this.contact = contact;
