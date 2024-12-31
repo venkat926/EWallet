@@ -10,4 +10,7 @@ public class CommonConstants {
 
     public final static  String USER_CREATION_TOPIC = "user_creation_topic";
     public final static  String WALLET_CREATION_TOPIC = "wallet_creation_topic";
+    public final static  String TRANSACTION_CREATION_TOPIC = "transaction_creation_topic";
+    public final static  String TRANSACTION_UPDATION_TOPIC = "transaction_updation_topic";
+    public final static  String TRANSACTION_COMPLETED_TOPIC = "transaction_completed_topic";
 }
