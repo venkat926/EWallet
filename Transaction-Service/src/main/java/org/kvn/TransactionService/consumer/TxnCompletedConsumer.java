@@ -44,9 +44,7 @@ public class TxnCompletedConsumer {
         } else {
             txnRepo.updateTxnStatus(TxnStatus.FAILURE, txnId);
         }
-
-        logger.info("Publishing message to ________________, to send email notification on Transaction completed");
-        // publish message to kafka_Queue to send email notification on txn completion
+        logger.info("Updated Transaction status in DB. status is {}", status);
 
         // Acknowledgment
         acknowledgment.acknowledge();

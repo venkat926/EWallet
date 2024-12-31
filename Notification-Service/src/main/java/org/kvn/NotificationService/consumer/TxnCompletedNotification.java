@@ -28,8 +28,10 @@ public class TxnCompletedNotification {
 
     @KafkaListener(topics = {CommonConstants.TRANSACTION_COMPLETED_TOPIC}, groupId = "notification-service")
     public void transactionCompletedNotification(String message) throws JsonProcessingException {
+
+        logger.info("Received message in {}", CommonConstants.TRANSACTION_COMPLETED_TOPIC);
+
         JSONObject jsonObject = objectMapper.readValue(message, JSONObject.class);
-        logger.info("{}", jsonObject);
         String txnId = (String) jsonObject.get("txnId");
         String status = (String) jsonObject.get("status");
         String msg = (String) jsonObject.get("message");
@@ -39,6 +41,7 @@ public class TxnCompletedNotification {
         String senderContact = (String) jsonObject.get("senderContact");
         Double amount = (Double) jsonObject.get("amount");
 
+        logger.info("Sending mail notification to user, on transaction completion");
         if (status.equals("success")) {
             // send mail to sender
             simpleMailMessage.setFrom("ewallet@kvn.com");
@@ -73,5 +76,7 @@ public class TxnCompletedNotification {
                     "Amount will be refunded to your wallet, if debited");
             mailSender.send(simpleMailMessage);
         }
+        logger.info("Sent mail notification to user, on transaction completion");
+
     }
 }
