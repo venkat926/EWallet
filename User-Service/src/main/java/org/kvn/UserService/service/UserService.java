@@ -105,4 +105,20 @@ public class UserService implements UserDetailsService{
         return "Money successfully added to your wallet. And your final amount is : " + finalAmount + " Rupees";
 
     }
+
+    public String checkBalance(String contact) {
+        ValidateWalletDTO dto = restTemplate.exchange("http://localhost:8070/wallet/validateWallet?contact="+contact+"&balance=0",
+                HttpMethod.GET, null, ValidateWalletDTO.class).getBody();
+        if (dto == null) return "Internal Server Error. Please try again";
+        if (!dto.isValidWallet()) {
+            return "Wallet is not associated with you. Please create wallet first";
+        }
+
+        Double amount = restTemplate.exchange("http://localhost:8070/wallet/checkBalance?contact="+contact, HttpMethod.GET,
+                null, Double.class).getBody();
+        if (amount == null) {
+            return "Some internal server error. Please try again later";
+        }
+        return "Your wallet balance is " + amount + " Rupees";
+    }
 }

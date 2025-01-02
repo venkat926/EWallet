@@ -42,4 +42,9 @@ public class WalletController {
         return walletService.addMoneyToWallet(contact, amount);
     }
 
+    @GetMapping("/checkBalance")
+    public Double checkBalance(@RequestParam("contact") String contact) {
+        return walletService.getWalletBalance(contact);
+    }
+
 }

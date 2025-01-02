@@ -32,7 +32,7 @@ public class ValidateUserBeforeTxnService {
     public String validateUsersAndStartTxn(UserTxnDTO dto, Users user) {
         // sender is having a wallet and enough money in it
         // receiver is having a wallet or not
-        // rest template
+        // rest templatephot
         ValidateWalletDTO senderDTO = restTemplate.exchange("http://localhost:8070/wallet/validateWallet?contact=" + user.getPhoneNo()+"&balance="+dto.getAmount(),
                 HttpMethod.GET, null, ValidateWalletDTO.class).getBody();
 

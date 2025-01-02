@@ -50,6 +50,11 @@ public class UserController {
         return userService.addMoneyToUserWallet(amount, user.getPhoneNo());
     }
 
+    @GetMapping("/checkBalance")
+    public String checkBalance(@AuthenticationPrincipal Users user) {
+        return userService.checkBalance(user.getPhoneNo());
+    }
+
     // TODO: write updateUser API
 }
 

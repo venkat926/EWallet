@@ -24,4 +24,8 @@ public class WalletService {
         walletRepo.updateWallet(contact, amount);
         return  (Double) walletRepo.getBalance(contact);
     }
+
+    public Double getWalletBalance(String contact) {
+        return (Double) walletRepo.getBalance(contact);
+    }
 }
