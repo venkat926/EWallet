@@ -1,7 +1,7 @@
 # Ewallet Project
 
 ## Overview
-The Ewallet Project is a Java-based backend application implementing a microservices architecture. It allows users to manage wallets, perform transactions, and receive notifications. The project leverages Kafka for asynchronous communication, Spring Boot for API development, and Redis for caching.
+The Ewallet Project is a Java-based backend application implementing a microservices architecture. It allows users to manage wallets, perform transactions, and receive notifications. The project leverages Kafka for asynchronous communication and Spring Boot for API development.
 
 ---
 
